@@ -5,7 +5,7 @@ from selenium.webdriver.edge.service import Service
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 import time
 
-# Khởi động trình duyệt Edge
+# Khởi động trình duyệt Edge 123
 edge_options = webdriver.EdgeOptions()
 service = Service(EdgeChromiumDriverManager().install())
 driver = webdriver.Edge(service=service, options=edge_options)
