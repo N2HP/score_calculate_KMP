@@ -29,6 +29,13 @@ alert = driver.switch_to.alert
 
 # Bấm vào nút "OK"
 alert.accept()
+
+alert = driver.switch_to.alert
+
+# Bấm vào nút "OK"
+alert.accept()
+
+
 home_button = driver.find_element(By.LINK_TEXT, "Trang chủ")
 home_button.click()
 pla_button = driver.find_element(By.LINK_TEXT, "Thông tin cá nhân (SV)")
