@@ -18,22 +18,27 @@ username_input = driver.find_element(By.ID, "txtUserName")  # ID của ô nhập
 password_input = driver.find_element(By.ID, "txtPassword")  # ID của ô nhập mật khẩu
 
 # Điền thông tin đăng nhập
-username_input.send_keys("CT07N0134")
-password_input.send_keys("07/04/2004")
+username_input.send_keys("CT07N0117")
+password_input.send_keys("30/08/2004")
+
+# username_input.send_keys("CT07N0134")
+# password_input.send_keys("07/04/2004")
 
 # Nhấn nút đăng nhập
 login_button = driver.find_element(By.ID, "btnSubmit")  # ID của nút đăng nhập
 login_button.click()
+time.sleep(1)
+
 # Chuyển đổi ngữ cảnh sang hộp thoại thông báo
 alert = driver.switch_to.alert
 
 # Bấm vào nút "OK"
 alert.accept()
+time.sleep(1)
+# alert = driver.switch_to.alert
 
-alert = driver.switch_to.alert
-
-# Bấm vào nút "OK"
-alert.accept()
+# # Bấm vào nút "OK"
+# alert.accept()
 
 
 home_button = driver.find_element(By.LINK_TEXT, "Trang chủ")
@@ -80,17 +85,31 @@ for row in rows[1:]:
     # Kiểm tra số lượng cột có đúng không
     if len(cols) >= 14:
     # Lấy tên môn học từ cột thứ 2 (giả sử cột tên môn học là cột thứ 2)
-        ten_mon_hoc = cols[2].text.strip()    
+        ten_mon_hoc = cols[2].text.strip()  
     # Kiểm tra nếu tên môn học không phải là "Giáo dục thể chất..."
         if not ten_mon_hoc.startswith("Giáo dục thể chất"):
             # Lấy điểm TKHP từ cột cuối cùng (giả sử cột TKHP là cột thứ 14)
             try:
-                tkhp = float(cols[13].text)
+                print(f"{cols[2].text}")
+                tkhp_raw = cols[13].text.strip()
+
+                # Kiểm tra nếu đầu vào có dạng "4.0|8.2"
+                if "|" in tkhp_raw:
+                    tkhp = float(tkhp_raw.split("|")[1])  # Lấy số sau dấu '|'
+                elif tkhp_raw == "":  # Nếu không có giá trị gì
+                    tkhp = 8.0  # Giá trị mặc định
+                else:
+                    tkhp = float(tkhp_raw)  # Chuyển đổi trực tiếp nếu không có '|'
+                
+
                 tc = float(cols[3].text)
+                print(tc)
                 gpa = calculate_gpa(tkhp)
                 total_gpa += gpa * tc
                 total_tkhp += tkhp * tc
                 total_tc += tc
+                print(total_tc)
+
             except ValueError:
                 print(f"Lỗi: Không thể chuyển đổi giá trị '{cols[13].text}' thành số")
     else:
